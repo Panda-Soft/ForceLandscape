@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="p4nd4.forcelandscape.Setup">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!---
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+        -->
+
+
+        <TextView
+            android:id="@+id/permissions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text=""
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="0sp"
+            android:textStyle="bold"/>
+
+      <!--  <TextView
+            android:id="@+id/uses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Something went wrong :("
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_below="@id/permissions"/>
+-->
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/permissions"
+            android:text="Show notification during lock"
+            android:checked="true"
+            />
+
+        <WebView
+            android:id="@+id/gif1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/switch1"
+            android:layout_above="@id/btn2"/>
+
+        <!--
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+        -->
+        <Button android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn1"
+            android:layout_alignParentBottom="true"
+            android:text="Ok, got it!"
+            android:textSize="30sp"/>
+        <Button android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn2"
+            android:layout_above="@+id/btn1"
+            android:text="@string/more_apps"
+            android:textSize="30sp"/>
+        <!--<com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            ads:adUnitId="@string/banner_ad_unit_id"
+            ads:adSize="BANNER" /> -->
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
