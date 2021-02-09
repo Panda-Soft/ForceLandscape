@@ -11,6 +11,7 @@ package p4nd4.forcelandscape;
         import android.graphics.Color;
         import android.graphics.PixelFormat;
         import android.os.Build;
+        import android.os.Handler;
         import android.os.IBinder;
         import android.preference.PreferenceManager;
         import android.provider.Settings;
@@ -23,6 +24,7 @@ public class AlwaysOnTopService extends Service {
     private View topLeftView;
     WindowManager.LayoutParams topLeftParams;
     boolean notificationState;
+    int ForcedOrientation =ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE;
 
     private WindowManager wm;
     Integer accelerometrState;
@@ -34,10 +36,13 @@ public class AlwaysOnTopService extends Service {
 
     @Override
     public void onCreate() {
-        super.onCreate();
-        wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        SharedPreferences AppData = PreferenceManager.getDefaultSharedPreferences(this);
-        notificationState = AppData.getBoolean("notificationState", true);
+            wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+            SharedPreferences AppData = PreferenceManager.getDefaultSharedPreferences(this);
+            notificationState = AppData.getBoolean("notificationState", true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            notificationState=true;
+        }
+
             accelerometrState = 0;
             try {
                 accelerometrState = Settings.System.getInt(this.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION);
@@ -54,11 +59,11 @@ public class AlwaysOnTopService extends Service {
                     WindowManager.LayoutParams.WRAP_CONTENT,
                     getWindowType(), //Temporary Nougat+Oreo
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, PixelFormat.TRANSLUCENT);
-             topLeftParams.x = 0;
+            topLeftParams.x = 0;
             topLeftParams.y = 0;
             topLeftParams.width = 0;
             topLeftParams.height = 0;
-            topLeftParams.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE;
+            topLeftParams.screenOrientation = ForcedOrientation;
             wm.addView(topLeftView, topLeftParams);
 
             if (notificationState) {
@@ -93,7 +98,6 @@ public class AlwaysOnTopService extends Service {
                 }
                 startForeground(1, notif);
             }
-
     }
 
 
@@ -106,9 +110,19 @@ public class AlwaysOnTopService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
             Settings.System.putInt( this.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, accelerometrState);
         if(topLeftView.getWindowToken() != null){ wm.removeView(topLeftView); }
+
+        Handler shutdownHandler;
+        shutdownHandler = new Handler();
+        shutdownHandler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
         System.exit(0);
+            }
+        }, 220L);
     }
 
     public static int getScreenWidth() {

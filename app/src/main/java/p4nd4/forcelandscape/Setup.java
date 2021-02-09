@@ -23,8 +23,11 @@ import android.net.Uri;
 public class Setup extends Activity {
     final public static int OVERLAY_PERMISSION_REQ_CODE = 1;
     Button btn2;
+    Button btn3;
     Switch sw1;
+    Switch sw2;
     boolean notificationState;
+    boolean autoHideTile;
     SharedPreferences AppData;
     SharedPreferences.Editor editor;
 
@@ -62,6 +65,33 @@ public class Setup extends Activity {
             }
         });
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            sw1.setVisibility(View.GONE);
+        }
+
+        sw2 = (Switch) findViewById(R.id.switch2);
+
+        autoHideTile = AppData.getBoolean("autoHideTile", true);
+
+
+        sw2.setChecked(autoHideTile);
+        sw2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                autoHideTile=!autoHideTile;
+                editor = AppData.edit();
+                editor.putBoolean("autoHideTile", autoHideTile);
+                editor.commit();
+
+                if (!autoHideTile) Toast.makeText(getApplicationContext(), "Quick Settings will remain open after taping this tile.", Toast.LENGTH_LONG).show();
+                else Toast.makeText(getApplicationContext(), "Quick Settings will hide after taping this tile.", Toast.LENGTH_LONG).show();
+
+
+            }
+        });
+
         Button btn1 = (Button) findViewById(R.id.btn1);
         btn1.setOnClickListener(new View.OnClickListener() {
 
@@ -78,11 +108,21 @@ public class Setup extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://play.google.com/store/apps/developer?id=PandaSoftware"));
+                i.setData(Uri.parse("https://play.google.com/store/apps/dev?id=5847423621940926942"));
                 startActivity(i);
             }
         });
+        btn3 = (Button) findViewById(R.id.btn3);
+        btn3.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://github.com/Panda-Soft");
+                Intent i = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(i);
+
+            }
+        });
 
     }
 

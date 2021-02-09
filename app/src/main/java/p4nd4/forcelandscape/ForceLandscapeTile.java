@@ -1,11 +1,14 @@
 package p4nd4.forcelandscape;
         import android.content.Intent;
+        import android.content.SharedPreferences;
         import android.graphics.drawable.Icon;
         import android.os.Build;
         import android.os.Handler;
+        import android.preference.PreferenceManager;
         import android.provider.Settings;
         import android.service.quicksettings.Tile;
         import android.service.quicksettings.TileService;
+
         import java.lang.reflect.InvocationTargetException;
         import java.lang.reflect.Method;
 
@@ -31,7 +34,10 @@ public class ForceLandscapeTile extends TileService  {
         super.onClick();
 
         Intent svc;
-        collapseNow();
+        SharedPreferences AppData;
+
+        AppData = PreferenceManager.getDefaultSharedPreferences(this);
+        if(AppData.getBoolean("autoHideTile", true))  collapseNow();
 
         if ((!Settings.canDrawOverlays(this)) || (!Settings.System.canWrite(this))) {
             Intent startSetup = new Intent(this, Setup.class);
@@ -46,10 +52,16 @@ public class ForceLandscapeTile extends TileService  {
                     tile.setLabel("Force Landscape");
                     svc = new Intent(this, AlwaysOnTopService.class);
                     stopService(svc);
+
+
                 } else {
                     tile.setIcon(Icon.createWithResource(this, R.drawable.ic_landscape));
                     svc = new Intent(this, AlwaysOnTopService.class);
-                    startService(svc);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        startForegroundService(svc);
+                    } else {
+                        startService(svc);
+                    }
                     tile.setLabel("Stop");
 
                 }
@@ -68,7 +80,8 @@ public class ForceLandscapeTile extends TileService  {
         if (collapseNotificationHandler == null) {
             collapseNotificationHandler = new Handler();
         }
-        collapseNotificationHandler.postDelayed(new Runnable() {
+
+        Runnable collapse = new Runnable() {
 
             @Override
             public void run() {
@@ -106,7 +119,9 @@ public class ForceLandscapeTile extends TileService  {
                     e.printStackTrace();
                 }
             }
-        }, 300L);
+        };
+
+        collapseNotificationHandler.postDelayed(collapse, 200L);
 
     }
 }

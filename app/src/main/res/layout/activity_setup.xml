@@ -9,18 +9,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!---
-
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true" >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-        -->
 
 
         <TextView
@@ -33,59 +21,53 @@
             android:textSize="0sp"
             android:textStyle="bold"/>
 
-      <!--  <TextView
-            android:id="@+id/uses"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:text="Something went wrong :("
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_below="@id/permissions"/>
--->
         <Switch
             android:id="@+id/switch1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/permissions"
-            android:text="Show notification during lock"
+            android:text="Show notification during landscape mode"
             android:checked="true"
+            android:layout_margin="5dp"
             />
 
+        <Switch
+            android:id="@+id/switch2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/switch1"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:checked="true"
+            android:text="Hide Quick Settings after taping tile" />
         <WebView
             android:id="@+id/gif1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/switch1"
+            android:layout_below="@id/switch2"
             android:layout_above="@id/btn2"/>
 
-        <!--
-
-                    </LinearLayout>
-
-
-                </ScrollView>
-        -->
         <Button android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn1"
             android:layout_alignParentBottom="true"
             android:text="Ok, got it!"
-            android:textSize="30sp"/>
+            android:textSize="25sp"/>
         <Button android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn2"
-            android:layout_above="@+id/btn1"
+            android:layout_above="@+id/btn3"
             android:text="@string/more_apps"
-            android:textSize="30sp"/>
-        <!--<com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
+            android:textSize="25sp"/>
+        <Button android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            ads:adUnitId="@string/banner_ad_unit_id"
-            ads:adSize="BANNER" /> -->
+            android:id="@+id/btn3"
+            android:layout_above="@+id/btn1"
+            android:text="@string/source_code"
+            android:textSize="15sp"/>
+
     </RelativeLayout>
 
 
